@@ -14,7 +14,7 @@ from continuum.tasks.h5_task_set import H5TaskSet
 def TaskSet(x: np.ndarray,
             y: np.ndarray,
             t: np.ndarray,
-            trsf: Union[transforms.Compose, List[transforms.Compose]] = None,
+            trsf: Union[transforms.Compose, List[transforms.Compose]] = None,  
             target_trsf: Optional[Union[transforms.Compose, List[transforms.Compose]]] = None,
             data_type: TaskType = TaskType.IMAGE_ARRAY,
             bounding_boxes: Optional[np.ndarray] = None,

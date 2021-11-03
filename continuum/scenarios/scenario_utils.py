@@ -40,7 +40,7 @@ def create_subscenario(base_scenario, task_indexes):
 
 
 @torch.no_grad()
-def encode_into_dataset(model, scenario, batch_size, filename, inference_fct=None):
+def encode_into_dataset(model, scenario, batch_size, filename, inference_fct=None, debug=False):
     """This function encode a scenario into a h5 dataset to reproduce the same scenario with features.
 
     :param model: model to encode the data.
@@ -57,8 +57,9 @@ def encode_into_dataset(model, scenario, batch_size, filename, inference_fct=Non
     # we save feature in eval mode
     model.eval()
 
-    encoded_dataset = None
+    encoded_dataset = None      
     for task_id, taskset in enumerate(scenario):
+        print(f'Encoding task {task_id}')
         # we need to load the data to use the transformation if there is some
         loader = DataLoader(taskset, shuffle=False, batch_size=batch_size)
         for i, (x, y, t) in enumerate(loader):
@@ -70,12 +71,13 @@ def encode_into_dataset(model, scenario, batch_size, filename, inference_fct=Non
                 encoded_dataset = H5Dataset(features.cpu().numpy(), y, t, data_path=filename)
             else:
                 encoded_dataset.add_data(features.cpu().numpy(), y, t)
-
+            if debug and i>3:
+                break
     model.train(training_mode)
     return encoded_dataset
 
 
-def encode_scenario(scenario, model, batch_size, filename, inference_fct=None):
+def encode_scenario(scenario, model, batch_size, filename, inference_fct=None, debug=False):
     """This function created an encoded scenario dataset and convert it into a ContinualScenario.
 
     :param model: model to encode the data.
@@ -89,7 +91,7 @@ def encode_scenario(scenario, model, batch_size, filename, inference_fct=None):
         raise ValueError(f"File name: {filename} already exists")
 
     print(f"Encoding {filename}.")
-    encoded_dataset = encode_into_dataset(model, scenario, batch_size, filename, inference_fct)
+    encoded_dataset = encode_into_dataset(model, scenario, batch_size, filename, inference_fct, debug)
     print(f"Encoding is done.")
 
     return ContinualScenario(encoded_dataset)
