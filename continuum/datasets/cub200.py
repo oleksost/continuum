@@ -12,6 +12,7 @@ from continuum.tasks import TaskType
 class CUB200(_ContinuumDataset):
     # initial code taken from https://github.com/TDeVries/cub2011_dataset
     base_folder = "CUB_200_2011/images"
+    num_classes = 200
 
     def __init__(self, data_path, train: bool = True, download: bool = True):
         data_path = os.path.expanduser(data_path)

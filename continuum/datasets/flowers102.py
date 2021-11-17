@@ -19,6 +19,7 @@ class OxfordFlower102(_ContinuumDataset):
 
     """
     base_url = "https://www.robots.ox.ac.uk/~vgg/data/flowers/102/"
+    num_classes = 102
 
     def __init__(self, data_path, train: bool = True, download: bool = True):
         self._attributes = None

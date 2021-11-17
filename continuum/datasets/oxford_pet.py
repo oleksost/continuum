@@ -16,7 +16,7 @@ class OxfordPet(_ContinuumDataset):
 
     """
     base_url = "http://www.robots.ox.ac.uk/~vgg/data/pets/data"
-
+    num_classes = 37
     def __init__(self, data_path, train: bool = True, download: bool = True):
         self._attributes = None
         super().__init__(data_path, train, download)

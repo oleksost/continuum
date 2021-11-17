@@ -64,7 +64,7 @@ class CIFAR100(PyTorchDataset):
     :param labels_type: labels type define if we use class labels or category labels for each data point.
     :param task_labels: labels type define what type of labels we use if we want to create a task id vector.
     """
-
+    num_classes=100
     def __init__(self, *args, labels_type: str = "class", task_labels: str = None, **kwargs):
         super().__init__(*args, dataset_type=torchdata.cifar.CIFAR100, **kwargs)
         if not labels_type in ["class", "category"]:
